@@ -46,10 +46,31 @@ public class App {
 
 
         //SELECT courses του teacher με επώνυμο 'Ανδρούτσος'
-        //String sql2 = "SELECT c FROM Course c WHERE c.teacher.lastname = 'Ανδρούτσος'";
+
+        // SQL Injection is an attack where a user injects a string into a query
+        // If we inject the string immediately in the sql query, this could be
+        // very dangerous.
+
+        // We should always use PARAMETERS in query strings or in any CRUD method that
+        // uses input params from the user. Όλες οι γλώσσες έχουν μηχανισμούς να περνάμε
+        // Strings ως παραμέτρους σε ένα Query.
+
+        // Παρακάτω είμαστε απρόσεκτοι και περνάμε το String 'Ανδρούτσος' κατευθείαν.
+        // Θα μπορούσε να είναι μία μεταβλητή που έχει το Ανδρούτσος
+
+//        String andrLastname = "Ανδρούτσος";     // έρχεται από τον client
+//        String sql2 = "SELECT c FROM Course c WHERE c.teacher.lastname = " + andrLastname; // Dangerous
+//        Το ίδιο με απο πάνω
+        // String sql2 = "SELECT c FROM Course c WHERE c.teacher.lastname = 'Ανδρούτσος'";
+
+        // Η μόνη λύση για SQL Injection attack είναι να χρησιμοποιούμε aliases (ψευδώνυμα)
+        // όπως το :lastname (στην JPQL τα named params ξεκινάνε με :)
+        // και στη συνέχεια να κάνουμε setParameter αφού έχει δημιουργηθεί το query (TypedQuery<>)
+        // όπως παρακάτω
         String sql2 = "SELECT c FROM Course c WHERE c.teacher.lastname = :lastname";
         TypedQuery<Course> query = em.createQuery(sql2, Course.class);
-        List<Course> courses = query.setParameter("lastname", "Ανδρούτσος")
+        List<Course> courses = query
+                //.setParameter("lastname", "Ανδρούτσος")
                         .getResultList();
         courses.forEach(System.out::println);
 
