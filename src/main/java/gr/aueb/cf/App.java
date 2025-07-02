@@ -58,7 +58,7 @@ public class App {
         // Παρακάτω είμαστε απρόσεκτοι και περνάμε το String 'Ανδρούτσος' κατευθείαν.
         // Θα μπορούσε να είναι μία μεταβλητή που έχει το Ανδρούτσος
 
-//        String andrLastname = "Ανδρούτσος";     // έρχεται από τον client
+        String andrLastname = "Ανδρούτσος";     // έρχεται από τον client
 //        String sql2 = "SELECT c FROM Course c WHERE c.teacher.lastname = " + andrLastname; // Dangerous
 //        Το ίδιο με απο πάνω
         // String sql2 = "SELECT c FROM Course c WHERE c.teacher.lastname = 'Ανδρούτσος'";
@@ -70,10 +70,16 @@ public class App {
         String sql2 = "SELECT c FROM Course c WHERE c.teacher.lastname = :lastname";
         TypedQuery<Course> query = em.createQuery(sql2, Course.class);
         List<Course> courses = query
-                //.setParameter("lastname", "Ανδρούτσος")
-                        .getResultList();
+                .setParameter("lastname", andrLastname)
+                .getResultList();
         courses.forEach(System.out::println);
 
+        // Select teachers & courses they teach
+        String sql3 = "SELECT t, c FROM Teacher t JOIN t.courses c";
+        List<Object[]> teachersCourses = em.createQuery(sql3, Object[].class).getResultList();
+        for (Object[] objectArr : teachersCourses) {
+            System.out.println("Teacher: " + objectArr[0] + "\nCourse: " + objectArr[1]);
+        }
 
         em.getTransaction().commit();
 
