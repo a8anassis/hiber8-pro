@@ -2,6 +2,7 @@ package gr.aueb.cf.model;
 
 import jakarta.persistence.*;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -56,9 +57,21 @@ public class Teacher {
         this.lastname = lastname;
     }
 
+    protected Set<Course> getCourses() {
+        return courses;
+    }
+
+    public Set<Course> getAllCourses() {
+        return Collections.unmodifiableSet(courses);
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
+    }
+
     public void addCourse(Course course) {
         if (courses == null) courses = new HashSet<>();
-        courses.add(course);
+        this.courses.add(course);
         course.setTeacher(this);
     }
 
