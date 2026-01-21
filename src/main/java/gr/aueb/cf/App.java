@@ -7,10 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.ParameterExpression;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -63,7 +60,7 @@ public class App {
         // Παρακάτω είμαστε απρόσεκτοι και περνάμε το String 'Ανδρούτσος' κατευθείαν.
         // Θα μπορούσε να είναι μία μεταβλητή που έχει το Ανδρούτσος
 
-        String andrLastname = "Ανδρούτσος";     // έρχεται από τον client
+//        String andrLastname = "Ανδρούτσος";     // έρχεται από τον client
 //        String sql2 = "SELECT c FROM Course c WHERE c.teacher.lastname = " + andrLastname; // Dangerous
 //        Το ίδιο με απο πάνω
         // String sql2 = "SELECT c FROM Course c WHERE c.teacher.lastname = 'Ανδρούτσος'";
@@ -135,15 +132,29 @@ public class App {
 
 
         //  Select all teachers με επώνυμο Ανδρούτσος - SQL Injection safe
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Teacher> query = cb.createQuery(Teacher.class);
-        Root<Teacher> teacherRoot = query.from(Teacher.class);
+//        CriteriaBuilder cb = em.getCriteriaBuilder();
+//        CriteriaQuery<Teacher> query = cb.createQuery(Teacher.class);
+//        Root<Teacher> teacherRoot = query.from(Teacher.class);
+//
+//        ParameterExpression<String> lastnameParam = cb.parameter(String.class);
+//        query.select(teacherRoot).where(cb.equal(teacherRoot.get("lastname"), lastnameParam));   // SQL Injection !!!
+//
+//        List<Teacher> teachers = em.createQuery(query).setParameter(lastnameParam, "Ανδρούτσος").getResultList();
+//        teachers.forEach(System.out::println);
 
-        ParameterExpression<String> lastnameParam = cb.parameter(String.class);
-        query.select(teacherRoot).where(cb.equal(teacherRoot.get("lastname"), lastnameParam));   // SQL Injection !!!
+        // List Courses Along with Teacher Names
+//        CriteriaBuilder cb = em.getCriteriaBuilder();
+//        CriteriaQuery<Object[]> query = cb.createQuery(Object[].class);
+//        Root<Course> course = query.from(Course.class);
+//        Join<Course, Teacher> teacher = course.join("teacher", JoinType.LEFT);
+//        query.multiselect(course.get("title"), teacher.get("lastname"),teacher.get("firstname"));
+//        List<Object[]> coursesTeachers = em.createQuery(query).getResultList();
+//
+//        for (Object[] objectList : coursesTeachers) {
+//            System.out.println("Title" + objectList[0] + " Lastname" +  objectList[1] + " Firstname" + objectList[2]);
+//        }
 
-        List<Teacher> teachers = em.createQuery(query).setParameter(lastnameParam, "Ανδρούτσος").getResultList();
-        teachers.forEach(System.out::println);
+
 
         em.getTransaction().commit();
 
