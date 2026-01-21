@@ -69,7 +69,7 @@ public class App {
         // String sql2 = "SELECT c FROM Course c WHERE c.teacher.lastname = 'Ανδρούτσος'";
 
         // Η μόνη λύση για SQL Injection attack είναι να χρησιμοποιούμε aliases (ψευδώνυμα)
-        // όπως το :lastname (στην JPQL τα named params ξεκινάνε με :)
+        // όπως το :lastname (στην JPQLΠιστοποίηση από το ΟΠΑ τα named params ξεκινάνε με :)
         // και στη συνέχεια να κάνουμε setParameter αφού έχει δημιουργηθεί το query (TypedQuery<>)
         // όπως παρακάτω
 //        String sql2 = "SELECT c FROM Course c WHERE c.teacher.lastname = :lastname";
